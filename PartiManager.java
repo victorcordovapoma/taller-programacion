@@ -4,13 +4,13 @@ public class PartiManager {
 
     private final int MAX_STUDENTS;
     private final List<Student> students;
-    private final List<Session> sessions;
+    // private final List<Session> sessions;
     private final List<Participation> participations;
 
     public PartiManager(int maxStudents) {
         this.MAX_STUDENTS = maxStudents;
         this.students = new ArrayList<>();
-        this.sessions = new ArrayList<>();
+        // this.sessions = new ArrayList<>();
         this.participations = new ArrayList<>();
     }
 

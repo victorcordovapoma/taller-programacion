@@ -74,29 +74,29 @@ void main() {
 //     }
 // }
 
-void registerStudent(List<Student> students, Scanner scanner) {
-    if (students.size() >= MAX_STUDENTS) {
-        System.out.println("Student list is full.");
-        return;
-    }
+// void registerStudent(List<Student> students, Scanner scanner) {
+//     if (students.size() >= MAX_STUDENTS) {
+//         System.out.println("Student list is full.");
+//         return;
+//     }
 
-    System.out.print("DNI (8 digits): ");
-    String dni = scanner.nextLine().trim();
-    if (dni.length() != 8) {
-        System.out.println("Invalid DNI.");
-        return;
-    }
-    System.out.print("Full name: ");
-    String name = scanner.nextLine().trim();
-    Student newStudent = new Student(dni, name);
+//     System.out.print("DNI (8 digits): ");
+//     String dni = scanner.nextLine().trim();
+//     if (dni.length() != 8) {
+//         System.out.println("Invalid DNI.");
+//         return;
+//     }
+//     System.out.print("Full name: ");
+//     String name = scanner.nextLine().trim();
+//     Student newStudent = new Student(dni, name);
 
-    students.add(newStudent);
-    // students[studentCount] = new Student(dni, name);
-    // participations[studentCount] = 0; // inicia en 0
-    // studentCount++;
-    // System.out.println("Student registered.");
-    // return students;
-}
+//     students.add(newStudent);
+//     // students[studentCount] = new Student(dni, name);
+//     // participations[studentCount] = 0; // inicia en 0
+//     // studentCount++;
+//     // System.out.println("Student registered.");
+//     // return students;
+// }
 
 // void print() {
 //     IO.println("Hello world");
