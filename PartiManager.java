@@ -76,7 +76,7 @@ public class PartiManager {
     public void showParticipations() {
         for (Participation item : participations) {
             IO.println(
-                "The studente: " +
+                "The student: " +
                     item.getStudent().fullName +
                     " has participated."
             );
