@@ -1,0 +1,14 @@
+# Ignorar archivos compilados
+*.class
+
+# Ignorar directorios de compilación
+bin/
+out/
+build/
+target/
+
+# Ignorar archivos del sistema
+.DS_Store
+.idea/
+*.iml
+.vscode/
