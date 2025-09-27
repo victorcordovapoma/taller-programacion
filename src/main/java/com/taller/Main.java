@@ -17,7 +17,6 @@ public class Main {
         PartiManager manager = new PartiManager(MAX_STUDENTS);
         String option;
         String dni;
-        IO.println("Hello world");
 
         do {
             Ui.showMenu();
