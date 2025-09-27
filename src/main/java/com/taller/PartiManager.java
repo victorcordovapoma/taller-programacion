@@ -6,6 +6,7 @@ import models.Student;
 import participation.Participation;
 import repository.ParticipationRepository;
 import repository.StudentRepository;
+import utils.IO;
 import utils.JsonHelper;
 
 public class PartiManager {
@@ -43,15 +44,6 @@ public class PartiManager {
         return students.size() >= MAX_STUDENTS;
     }
 
-    private boolean dniAlreadyExist(List<Student> students, String dni) {
-        for (Student item : students) {
-            if (item.dni.equals(dni)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     // Registro de estudiante
     public boolean registerStudent(String dni, String fullName) {
         List<Student> students = studentRepo.getAllStudents();
@@ -60,30 +52,22 @@ public class PartiManager {
             IO.println("Student list is full.");
             return false;
         }
-        if (dniAlreadyExist(students, dni)) {
+
+        if (studentRepo.getStudentByDni(dni)) {
             IO.println("Invalid DNI.");
             return false;
         }
-        if (fullNameAlreadyExist(students, dni)) {
+        if (studentRepo.fullNameAlreadyExist(fullName)) {
             IO.println("Invalid Name.");
             return false;
         }
+        IO.println(
+            "full name exits?: " + studentRepo.fullNameAlreadyExist(fullName)
+        );
         Student student = new Student(dni, fullName);
         students.add(student);
         studentRepo.saveAll(students);
         return true;
-    }
-
-    private boolean fullNameAlreadyExist(
-        List<Student> students,
-        String fullName
-    ) {
-        for (Student item : students) {
-            if (item.fullName.equalsIgnoreCase(fullName.trim())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void showStudents() {

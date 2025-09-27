@@ -1,6 +1,7 @@
-package repository;
+package com.repository;
 
 import java.util.List;
+import models.Course;
 import participation.Participation;
 import utils.JsonHelper;
 
