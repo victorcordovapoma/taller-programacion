@@ -1,3 +1,5 @@
+package com.taller;
+
 public class Ui {
 
     static void showMenu() {

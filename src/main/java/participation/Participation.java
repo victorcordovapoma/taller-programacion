@@ -1,3 +1,7 @@
+package participation;
+
+import models.Student;
+
 // import Main.Student;
 
 public class Participation {

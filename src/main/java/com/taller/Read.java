@@ -1,3 +1,5 @@
+package com.taller;
+
 import java.util.Scanner;
 import utils.Validation;
 

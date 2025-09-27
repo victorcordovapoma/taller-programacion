@@ -1,4 +1,12 @@
-import java.util.*;
+package com.taller;
+
+import java.util.ArrayList;
+import java.util.List;
+import models.Student;
+import participation.Participation;
+import repository.ParticipationRepository;
+import repository.StudentRepository;
+import utils.JsonHelper;
 
 public class PartiManager {
 
@@ -6,19 +14,36 @@ public class PartiManager {
     private final List<Student> students;
     // private final List<Session> sessions;
     private final List<Participation> participations;
+    private final StudentRepository studentRepo;
+    private final ParticipationRepository participationRepo;
+
+    private final String studentsFile = "data/students.json";
+    private final String participationsFile = "data/participations.json";
 
     public PartiManager(int maxStudents) {
         this.MAX_STUDENTS = maxStudents;
-        this.students = new ArrayList<>();
-        // this.sessions = new ArrayList<>();
-        this.participations = new ArrayList<>();
+        this.studentRepo = new StudentRepository();
+        this.participationRepo = new ParticipationRepository();
+
+        // this.students = new ArrayList<>();
+        // this.participations = new ArrayList<>();
+        this.students = new ArrayList<>(
+            JsonHelper.readListFromFile(studentsFile, Student.class)
+        );
+        this.participations = new ArrayList<>(
+            JsonHelper.readListFromFile(participationsFile, Participation.class)
+        );
     }
 
-    private boolean isFull() {
+    // public PartiManager(int maxStudents) {
+    //     // Al iniciar, intento cargar los datos guardados
+    // }
+
+    private boolean isFull(List<Student> students) {
         return students.size() >= MAX_STUDENTS;
     }
 
-    private boolean dniAlreadyExist(String dni) {
+    private boolean dniAlreadyExist(List<Student> students, String dni) {
         for (Student item : students) {
             if (item.dni.equals(dni)) {
                 return true;
@@ -29,24 +54,30 @@ public class PartiManager {
 
     // Registro de estudiante
     public boolean registerStudent(String dni, String fullName) {
-        if (isFull()) {
+        List<Student> students = studentRepo.getAllStudents();
+
+        if (isFull(students)) {
             IO.println("Student list is full.");
             return false;
         }
-        if (dniAlreadyExist(dni)) {
+        if (dniAlreadyExist(students, dni)) {
             IO.println("Invalid DNI.");
             return false;
         }
-        if (fullNameAlreadyExist(dni)) {
+        if (fullNameAlreadyExist(students, dni)) {
             IO.println("Invalid Name.");
             return false;
         }
         Student student = new Student(dni, fullName);
         students.add(student);
+        studentRepo.saveAll(students);
         return true;
     }
 
-    private boolean fullNameAlreadyExist(String fullName) {
+    private boolean fullNameAlreadyExist(
+        List<Student> students,
+        String fullName
+    ) {
         for (Student item : students) {
             if (item.fullName.equalsIgnoreCase(fullName.trim())) {
                 return true;
@@ -63,17 +94,25 @@ public class PartiManager {
     }
 
     public boolean registerParticipation(String studentDni) {
-        Student item = findStudentByDni(studentDni);
-        if (item == null) {
+        List<Student> students = studentRepo.getAllStudents();
+        List<Participation> participations = participationRepo.getAll();
+
+        // Student found = null;
+
+        Student student = findStudentByDni(studentDni);
+        if (student == null) {
             return false;
         }
-        Participation participation = new Participation(item);
+        Participation participation = new Participation(student);
 
         participations.add(participation);
+        participationRepo.saveAll(participations);
+
         return true;
     }
 
     public void showParticipations() {
+        List<Participation> participations = participationRepo.getAll();
         for (Participation item : participations) {
             IO.println(
                 "The student: " +
@@ -84,7 +123,7 @@ public class PartiManager {
         // return new ArrayList<>(students);
     }
 
-    private Student findStudentByDni(String dni) {
+    private Student findStudentByDni(List<Student> students, String dni) {
         for (Student item : students) {
             if (item.dni.equals(dni)) return item;
         }
