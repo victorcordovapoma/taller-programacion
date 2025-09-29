@@ -1,7 +1,9 @@
 package com.taller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import com.models.Student;
 import participation.Participation;
 import com.repository.ParticipationRepository;
@@ -113,7 +115,27 @@ public class PartiManager {
         for (Student item : students) {
             if (item.dni.equals(dni)) return item;
         }
+
         return null;
+    }
+
+    public List<Student> top3() {
+        Map<Student, Integer> map = countParticipations();
+        List<Student> students = new ArrayList<>(map.keySet());
+        students.sort((a, b) -> map.get(b).compareTo(map.get(a)));
+
+        return students.subList(0, Math.min(3, students.size()));
+    }
+
+    public Map<Student, Integer> countParticipations() {
+        Map<Student, Integer> map = new HashMap<>();
+
+        for (Participation participation : participations) {
+            Student student = participation.getStudent();
+            map.put(student, map.getOrDefault(student, 0) + 1);
+        }
+
+        return map;
     }
 }
 
@@ -129,23 +151,10 @@ public class PartiManager {
 //     // Registrar participación: asigna a un estudiante en una sesión
 
 //     // Contar participaciones de cada estudiante para una sesión o mes
-//     public Map<Student, Integer> countParticipations() {
-//         Map<Student, Integer> map = new HashMap<>();
-//         for (Participation p : participations) {
-//             Student st = p.getStudent();
-//             map.put(st, map.getOrDefault(st, 0) + 1);
-//         }
-//         return map;
-//     }
+
 
 //     // Obtener ranking (top3) basado en el conteo
-//     public List<Student> top3() {
-//         Map<Student, Integer> map = countParticipations();
-//         List<Student> sorted = new ArrayList<>(map.keySet());
-//         sorted.sort((a, b) -> map.get(b).compareTo(map.get(a)));
-//         // devolver hasta 3, si hay menos, devolver lo que haya
-//         return sorted.subList(0, Math.min(3, sorted.size()));
-//     }
+
 
 //     // Reiniciar participaciones (borrar todas)
 //     public void resetParticipations() {
