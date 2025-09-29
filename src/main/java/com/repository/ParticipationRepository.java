@@ -1,4 +1,4 @@
-package repository;
+package com.repository;
 
 import java.util.List;
 import participation.Participation;

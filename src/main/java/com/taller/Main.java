@@ -1,15 +1,15 @@
 package com.taller;
 
-import com.taller.PartiManager;
-import com.taller.Read;
-import com.taller.Ui;
-import java.util.List;
+// import com.taller.PartiManager;
+// import com.taller.Read;
+// import com.taller.Ui;
+// import java.util.List;
 import java.util.Scanner;
-import utils.Validation;
+// import utils.Validation;
 
 public class Main {
 
-    private static final int MAX_SESSIONS = 50;
+    // private static final int MAX_SESSIONS = 50;
     private static final int MAX_STUDENTS = 30;
 
     public static void main(String[] args) {

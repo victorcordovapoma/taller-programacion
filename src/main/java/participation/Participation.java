@@ -1,6 +1,6 @@
 package participation;
 
-import models.Student;
+import com.models.Student;
 
 // import Main.Student;
 

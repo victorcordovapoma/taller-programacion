@@ -2,12 +2,14 @@ package com.taller;
 
 import java.util.ArrayList;
 import java.util.List;
-import models.Student;
+import com.models.Student;
 import participation.Participation;
-import repository.ParticipationRepository;
-import repository.StudentRepository;
-import utils.IO;
+import com.repository.ParticipationRepository;
+// import repository.StudentRepository;
+// import utils.IO;
 import utils.JsonHelper;
+import com.repository.StudentRepository;
+// import com.utils.IO;
 
 public class PartiManager {
 
@@ -83,7 +85,7 @@ public class PartiManager {
 
         // Student found = null;
 
-        Student student = findStudentByDni(studentDni);
+        Student student = findStudentByDni(students, studentDni);
         if (student == null) {
             return false;
         }
