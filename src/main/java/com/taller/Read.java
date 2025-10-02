@@ -32,4 +32,26 @@ public class Read {
             System.out.println("Name cannot be empty.");
         }
     }
+
+    static String readInputString(Scanner sc) {
+        while (true) {
+            // System.out.print("Enter data (or ‘q’ to cancel): ");
+            String data = sc.nextLine().trim();
+            if (data.equalsIgnoreCase("q")) {
+                return null;
+            }
+            if (!data.isEmpty()) {
+                return data;
+            }
+            System.out.println("Data cannot be empty.");
+        }
+    }
+
+    static Integer readInputInt(Scanner sc) {
+        while (true) {
+            // System.out.print("Enter data (or ‘q’ to cancel): ");
+            Integer data = sc.nextInt();
+            return data;
+        }
+    }
 }

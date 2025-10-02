@@ -5,6 +5,7 @@ package com.taller;
 // import com.taller.Ui;
 // import java.util.List;
 import java.util.Scanner;
+
 // import utils.Validation;
 
 public class Main {
@@ -34,6 +35,15 @@ public class Main {
                     manager.registerParticipation(dni);
                 }
                 case "4" -> manager.showParticipations();
+                case "5" -> {
+                    // manager.showParticipations();
+                    System.out.print("Enter Course: ");
+                    String course = Read.readInputString(scanner);
+                    System.out.print("Enter Description: ");
+                    String description = Read.readInputString(scanner);
+                    manager.registerCourse(course, description);
+                }
+                case "6" -> manager.showCourses();
                 case "0" -> System.out.println("Bye!");
                 default -> System.out.println("Invalid option.");
             }
