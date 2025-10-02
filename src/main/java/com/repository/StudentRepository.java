@@ -1,7 +1,7 @@
 package com.repository;
 
-import java.util.List;
 import com.models.Student;
+import java.util.List;
 import utils.JsonHelper;
 
 public class StudentRepository {
@@ -25,7 +25,6 @@ public class StudentRepository {
 
     public boolean fullNameAlreadyExist(String fullName) {
         List<Student> students = getAllStudents();
-        // IO.printl(item.fullName + "    ");
         IO.println(fullName);
         for (Student item : students) {
             IO.println(item.fullName + "    ");

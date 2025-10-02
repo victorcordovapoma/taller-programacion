@@ -2,7 +2,6 @@ package com.models;
 
 public class Course {
 
-    // public final String id;
     public final String name;
     public final String description;
 

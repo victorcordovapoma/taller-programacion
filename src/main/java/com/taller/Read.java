@@ -10,7 +10,7 @@ public class Read {
             System.out.print("Enter DNI (8 digits) or ‘q’ to cancel: ");
             String dni = sc.nextLine().trim();
             if (dni.equalsIgnoreCase("q")) {
-                return null; // usamos null para indicar cancelación
+                return null;
             }
             if (Validation.isValidDni(dni)) {
                 return dni;
@@ -35,7 +35,6 @@ public class Read {
 
     static String readInputString(Scanner sc) {
         while (true) {
-            // System.out.print("Enter data (or ‘q’ to cancel): ");
             String data = sc.nextLine().trim();
             if (data.equalsIgnoreCase("q")) {
                 return null;
@@ -49,7 +48,6 @@ public class Read {
 
     static Integer readInputInt(Scanner sc) {
         while (true) {
-            // System.out.print("Enter data (or ‘q’ to cancel): ");
             Integer data = sc.nextInt();
             return data;
         }

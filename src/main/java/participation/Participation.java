@@ -2,8 +2,6 @@ package participation;
 
 import com.models.Student;
 
-// import Main.Student;
-
 public class Participation {
 
     private Student student;
