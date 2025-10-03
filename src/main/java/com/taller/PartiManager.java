@@ -15,12 +15,14 @@ public class PartiManager {
     private final int MAX_STUDENTS;
     private final List<Student> students;
     private final List<Participation> participations;
+    private final List<Course> courses;
     private final StudentRepository studentRepo;
     private final ParticipationRepository participationRepo;
     private final CourseRepository courseRepo;
 
     private final String studentsFile = "data/students.json";
     private final String participationsFile = "data/participations.json";
+    private final String coursesFile = "data/courses.json";
 
     public PartiManager(int maxStudents) {
         this.MAX_STUDENTS = maxStudents;
@@ -33,6 +35,9 @@ public class PartiManager {
         );
         this.participations = new ArrayList<>(
             JsonHelper.readListFromFile(participationsFile, Participation.class)
+        );
+        this.courses = new ArrayList<>(
+            JsonHelper.readListFromFile(coursesFile, Course.class)
         );
     }
 
@@ -66,6 +71,10 @@ public class PartiManager {
     }
 
     public void showStudents() {
+        if (students.size() == 0) {
+            IO.println("No hay cursos registrados actualmente.");
+            return;
+        }
         for (Student item : students) {
             IO.println("DNI: " + item.dni + " fullName: " + item.fullName);
         }
@@ -100,9 +109,9 @@ public class PartiManager {
         }
     }
 
-    public boolean registerCourse(String name, String description) {
+    public boolean registerCourse(String name, String description, String code) {
         List<Course> courses = courseRepo.getAll();
-        Course course = new Course(name, description);
+        Course course = new Course(name, description, code);
 
         courses.add(course);
         courseRepo.saveAll(courses);
@@ -114,7 +123,8 @@ public class PartiManager {
         List<Course> courses = courseRepo.getAll();
         for (Course item : courses) {
             IO.print("Course: " + item.name + " ");
-            IO.println("Description: " + item.description);
+            IO.print("Description: " + item.description + " ");
+            IO.println("Code: " + item.code);
         }
     }
 
