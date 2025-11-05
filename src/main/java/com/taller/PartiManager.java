@@ -17,6 +17,7 @@ public class PartiManager {
     private final List<Student> students;
     private final List<Course> courses;
     private final List<Participation> participations;
+    // private final List<Course> courses;
     private final StudentRepository studentRepo;
     private final ParticipationRepository participationRepo;
     private final CourseRepository courseRepo;
@@ -35,6 +36,15 @@ public class PartiManager {
         // JsonHelper.readListFromFile(studentsFile, Student.class)
         this.participations = new ArrayList<>();
         // JsonHelper.readListFromFile(participationsFile, Participation.class)
+        // this.students = new ArrayList<>(
+        //     JsonHelper.readListFromFile(studentsFile, Student.class)
+        // );
+        // this.participations = new ArrayList<>(
+        //     JsonHelper.readListFromFile(participationsFile, Participation.class)
+        // );
+        // this.courses = new ArrayList<>(
+        //     JsonHelper.readListFromFile(coursesFile, Course.class)
+        // );
     }
 
     private boolean isFull(List<Student> students) {
@@ -68,6 +78,10 @@ public class PartiManager {
     }
 
     public void showStudents() {
+        if (students.size() == 0) {
+            IO.println("No hay cursos registrados actualmente.");
+            return;
+        }
         for (Student item : students) {
             IO.println("DNI: " + item.dni + " fullName: " + item.fullName);
         }
@@ -109,9 +123,13 @@ public class PartiManager {
         }
     }
 
-    public boolean registerCourse(String name, String description) {
+    public boolean registerCourse(
+        String name,
+        String description,
+        String code
+    ) {
         // List<Course> courses = courseRepo.getAll();
-        Course course = new Course(name, description);
+        Course course = new Course(name, description, code);
 
         this.courses.add(course);
         // courseRepo.saveAll(courses);
@@ -123,7 +141,8 @@ public class PartiManager {
         // List<Course> courses = courseRepo.getAll();
         for (Course item : this.courses) {
             IO.print("Course: " + item.name + " ");
-            IO.println("Description: " + item.description);
+            IO.print("Description: " + item.description + " ");
+            IO.println("Code: " + item.code);
         }
     }
 

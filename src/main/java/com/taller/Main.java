@@ -32,9 +32,11 @@ public class Main {
                     // manager.showParticipations();
                     System.out.print("Enter Course: ");
                     String course = Read.readInputString(scanner);
+                    System.out.print("Enter Code: ");
+                    String code = Read.readInputString(scanner);
                     System.out.print("Enter Description: ");
                     String description = Read.readInputString(scanner);
-                    manager.registerCourse(course, description);
+                    manager.registerCourse(course, description, code);
                 }
                 case "6" -> manager.showCourses();
                 case "0" -> System.out.println("Bye!");
