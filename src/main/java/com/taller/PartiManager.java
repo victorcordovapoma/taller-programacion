@@ -9,21 +9,15 @@ import com.repository.StudentRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-// import utils.JsonHelper;
-
 public class PartiManager {
 
     private final int MAX_STUDENTS;
     private final List<Student> students;
     private final List<Course> courses;
     private final List<Participation> participations;
-    // private final List<Course> courses;
     private final StudentRepository studentRepo;
     private final ParticipationRepository participationRepo;
     private final CourseRepository courseRepo;
-
-    // private final String studentsFile = "data/students.json";
-    // private final String participationsFile = "data/participations.json";
 
     public PartiManager(int maxStudents) {
         this.MAX_STUDENTS = maxStudents;
@@ -33,18 +27,7 @@ public class PartiManager {
 
         this.courses = new ArrayList<>();
         this.students = new ArrayList<>();
-        // JsonHelper.readListFromFile(studentsFile, Student.class)
         this.participations = new ArrayList<>();
-        // JsonHelper.readListFromFile(participationsFile, Participation.class)
-        // this.students = new ArrayList<>(
-        //     JsonHelper.readListFromFile(studentsFile, Student.class)
-        // );
-        // this.participations = new ArrayList<>(
-        //     JsonHelper.readListFromFile(participationsFile, Participation.class)
-        // );
-        // this.courses = new ArrayList<>(
-        //     JsonHelper.readListFromFile(coursesFile, Course.class)
-        // );
     }
 
     private boolean isFull(List<Student> students) {
@@ -63,17 +46,9 @@ public class PartiManager {
             IO.println("Invalid DNI.");
             return false;
         }
-        // if (studentRepo.fullNameAlreadyExist(fullName, this.students)) {
-        //     IO.println("Invalid Name.");
-        //     return false;
-        // }
-        // IO.println(
-        //     "full name exits?: " +
-        //         studentRepo.fullNameAlreadyExist(fullName, this.students)
-        // );
+
         Student student = new Student(dni, fullName);
         students.add(student);
-        // studentRepo.saveAll(students);
         return true;
     }
 
@@ -88,11 +63,6 @@ public class PartiManager {
     }
 
     public boolean registerParticipation(String studentDni) {
-        // List<Student> students = studentRepo.getAllStudents();
-        // List<Participation> participations = participationRepo.getAll();
-
-        // Student found = null;
-
         Student student = studentRepo.getStudentByDni(
             studentDni,
             this.students
@@ -103,8 +73,6 @@ public class PartiManager {
         Participation participation = new Participation(student.getUuid());
 
         this.participations.add(participation);
-        // participationRepo.saveAll(participations);
-
         return true;
     }
 
@@ -128,29 +96,17 @@ public class PartiManager {
         String description,
         String code
     ) {
-        // List<Course> courses = courseRepo.getAll();
         Course course = new Course(name, description, code);
 
         this.courses.add(course);
-        // courseRepo.saveAll(courses);
-
         return true;
     }
 
     public void showCourses() {
-        // List<Course> courses = courseRepo.getAll();
         for (Course item : this.courses) {
             IO.print("Course: " + item.name + " ");
             IO.print("Description: " + item.description + " ");
             IO.println("Code: " + item.code);
         }
     }
-
-    // private Student findStudentByDni(List<Student> students, String dni) {
-    //     for (Student item : students) {
-    //         if (item.dni.equals(dni)) return item;
-    //     }
-
-    //     return null;
-    // }
 }
