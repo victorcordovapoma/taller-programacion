@@ -5,6 +5,7 @@ import com.models.Participation;
 import com.models.Section;
 import com.models.Student;
 import com.repository.CourseRepository;
+import com.repository.SectionRepository;
 import com.repository.StudentRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,13 @@ public class PartiManager {
     private final StudentRepository studentRepo;
 
     private final CourseRepository courseRepo;
+    private final SectionRepository sectionRepo;
 
     public PartiManager(int maxStudents) {
         this.MAX_STUDENTS = maxStudents;
         this.studentRepo = new StudentRepository();
         this.courseRepo = new CourseRepository();
+        this.sectionRepo = new SectionRepository();
 
         this.courses = new ArrayList<>();
         this.students = new ArrayList<>();
@@ -88,6 +91,15 @@ public class PartiManager {
     }
 
     public boolean registerCourse(String name, String code) {
+        if (courseRepo.getByCode(code, this.courses) != null) {
+            IO.println("Invalid code.");
+            return false;
+        }
+        if (courseRepo.getByName(name, this.courses) != null) {
+            IO.println("Invalid name.");
+            return false;
+        }
+
         Course course = new Course(name, code);
 
         this.courses.add(course);
@@ -102,8 +114,15 @@ public class PartiManager {
     }
 
     public boolean registerSection(String name, String courseCode) {
+        if (sectionRepo.getByName(name, this.sections) != null) {
+            IO.println("Invalid section.");
+            return false;
+        }
         Course course = this.courseRepo.getByCode(courseCode, this.courses);
-        if (course == null) return false;
+        if (course == null) {
+            IO.println("Invalid code.");
+            return false;
+        }
         Section section = new Section(name, course.getUuid());
         this.sections.add(section);
         return true;

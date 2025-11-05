@@ -1,5 +1,6 @@
 package com.repository;
 
+import com.models.Section;
 import com.models.StudentSection;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,6 @@ public class SectionRepository {
         return relations;
     }
 
-    // ✅ Obtener todos los estudiantes de una sección
     public List<UUID> getStudentUuidsBySection(
         UUID sectionUuid,
         List<StudentSection> relations
@@ -38,5 +38,14 @@ public class SectionRepository {
             );
         }
         return filtered;
+    }
+
+    public Section getByName(String name, List<Section> items) {
+        for (Section item : items) {
+            if (item.getName().equals(name)) {
+                return item;
+            }
+        }
+        return null;
     }
 }
