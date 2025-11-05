@@ -35,8 +35,6 @@ public class PartiManager {
     }
 
     public boolean registerStudent(String dni, String fullName) {
-        // List<Student> students = studentRepo.getAllStudents();
-
         if (isFull(students)) {
             IO.println("Student list is full.");
             return false;
@@ -77,26 +75,19 @@ public class PartiManager {
     }
 
     public void showParticipations() {
-        List<Participation> participations = participationRepo.getAll();
-
-        for (Participation item : participations) {
+        for (Participation item : this.participations) {
+            Student student = studentRepo.getStudentByUuid(
+                item.getStudentUuid(),
+                this.students
+            );
             IO.println(
-                "The student: " +
-                    studentRepo.getStudentByUuid(
-                        item.getStudentUuid(),
-                        this.students
-                    ).fullName +
-                    " has participated."
+                "The student: " + student.fullName + " has participated."
             );
         }
     }
 
-    public boolean registerCourse(
-        String name,
-        String description,
-        String code
-    ) {
-        Course course = new Course(name, description, code);
+    public boolean registerCourse(String name) {
+        Course course = new Course(name);
 
         this.courses.add(course);
         return true;
@@ -105,7 +96,6 @@ public class PartiManager {
     public void showCourses() {
         for (Course item : this.courses) {
             IO.print("Course: " + item.name + " ");
-            IO.print("Description: " + item.description + " ");
             IO.println("Code: " + item.code);
         }
     }

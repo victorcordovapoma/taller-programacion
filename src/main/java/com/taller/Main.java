@@ -29,14 +29,9 @@ public class Main {
                 }
                 case "4" -> manager.showParticipations();
                 case "5" -> {
-                    // manager.showParticipations();
                     System.out.print("Enter Course: ");
                     String course = Read.readInputString(scanner);
-                    System.out.print("Enter Code: ");
-                    String code = Read.readInputString(scanner);
-                    System.out.print("Enter Description: ");
-                    String description = Read.readInputString(scanner);
-                    manager.registerCourse(course, description, code);
+                    manager.registerCourse(course);
                 }
                 case "6" -> manager.showCourses();
                 case "0" -> System.out.println("Bye!");
