@@ -6,12 +6,12 @@ public class Course {
 
     private UUID uuid;
     public final String name;
-    public final UUID code;
+    public final String code;
 
-    public Course(String name) {
+    public Course(String name, String code) {
         this.uuid = UUID.randomUUID();
         this.name = name;
-        this.code = UUID.randomUUID();
+        this.code = code;
     }
 
     public UUID getUuid() {

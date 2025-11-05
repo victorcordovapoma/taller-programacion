@@ -1,6 +1,7 @@
 package com.taller;
 
 import java.util.Scanner;
+import java.util.UUID;
 import utils.Validation;
 
 public class Read {
@@ -43,6 +44,23 @@ public class Read {
                 return data;
             }
             System.out.println("Data cannot be empty.");
+        }
+    }
+
+    static UUID readUuid(Scanner sc) {
+        while (true) {
+            System.out.print("Enter UUID (or 'q' to cancel): ");
+            String input = sc.nextLine().trim();
+
+            if (input.equalsIgnoreCase("q")) {
+                return null;
+            }
+
+            try {
+                return UUID.fromString(input); // ✅ convierte si es válido
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid UUID format. Please try again.");
+            }
         }
     }
 

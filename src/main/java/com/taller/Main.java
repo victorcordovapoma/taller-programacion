@@ -1,6 +1,7 @@
 package com.taller;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Main {
 
@@ -31,9 +32,19 @@ public class Main {
                 case "5" -> {
                     System.out.print("Enter Course: ");
                     String course = Read.readInputString(scanner);
-                    manager.registerCourse(course);
+                    System.out.print("Enter Code: ");
+                    String code = Read.readInputString(scanner);
+                    manager.registerCourse(course, code);
                 }
                 case "6" -> manager.showCourses();
+                case "7" -> {
+                    System.out.print("Enter Section: ");
+                    String section = Read.readInputString(scanner);
+                    System.out.print("Enter Course Code: ");
+                    String code = Read.readInputString(scanner);
+                    manager.registerSection(section, code);
+                }
+                case "8" -> manager.showSections();
                 case "0" -> System.out.println("Bye!");
                 default -> System.out.println("Invalid option.");
             }
