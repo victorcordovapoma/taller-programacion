@@ -1,10 +1,10 @@
 # Ignorar archivos compilados
-*.class
+#*.class
 
 # Ignorar directorios de compilación
-bin/
-build/
-target/
+#bin/
+#build/
+#target/
 
 # Ignorar archivos del sistema
 .DS_Store
