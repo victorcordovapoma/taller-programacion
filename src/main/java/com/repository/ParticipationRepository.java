@@ -15,7 +15,6 @@ public class ParticipationRepository {
     }
 
     public void showRanking(
-        // UUID sectionUuid,
         List<Participation> participations,
         List<Student> students,
         StudentRepository studentRepository

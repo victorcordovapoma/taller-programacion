@@ -99,7 +99,7 @@ public class PartiManager {
 
     public boolean registerCourse(String name, String code) {
         if (courseRepo.getByCode(code, this.courses) != null) {
-            IO.println("Invalid code.");
+            IO.println("Course code already exists.");
             return false;
         }
         if (courseRepo.getByName(name, this.courses) != null) {
@@ -126,7 +126,7 @@ public class PartiManager {
 
     public boolean registerSection(String name, String courseCode) {
         if (sectionRepo.getByName(name, this.sections) != null) {
-            IO.println("Invalid section.");
+            IO.println("Section already exists.");
             return false;
         }
         Course course = this.courseRepo.getByCode(courseCode, this.courses);
