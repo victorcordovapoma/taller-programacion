@@ -44,6 +44,7 @@ public class Main {
                     manager.registerSection(section, code);
                 }
                 case "8" -> manager.showSections();
+                case "9" -> manager.showRanking();
                 case "0" -> System.out.println("Bye!");
                 default -> System.out.println("Invalid option.");
             }

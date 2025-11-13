@@ -5,6 +5,7 @@ import com.models.Participation;
 import com.models.Section;
 import com.models.Student;
 import com.repository.CourseRepository;
+import com.repository.ParticipationRepository;
 import com.repository.SectionRepository;
 import com.repository.StudentRepository;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class PartiManager {
     private final List<Participation> participations;
     private final List<Section> sections;
     private final StudentRepository studentRepo;
+    private final ParticipationRepository participationRepo;
 
     private final CourseRepository courseRepo;
     private final SectionRepository sectionRepo;
@@ -27,6 +29,7 @@ public class PartiManager {
         this.studentRepo = new StudentRepository();
         this.courseRepo = new CourseRepository();
         this.sectionRepo = new SectionRepository();
+        this.participationRepo = new ParticipationRepository();
 
         this.courses = new ArrayList<>();
         this.students = new ArrayList<>();
@@ -139,5 +142,13 @@ public class PartiManager {
                     ).name
             );
         }
+    }
+
+    public void showRanking() {
+        participationRepo.showRanking(
+            this.participations,
+            this.students,
+            this.studentRepo
+        );
     }
 }
