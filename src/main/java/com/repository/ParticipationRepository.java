@@ -21,7 +21,7 @@ public class ParticipationRepository {
         StudentRepository studentRepository
     ) {
         if (participations.isEmpty()) {
-            IO.println("No hay participaciones registradas actualmente.");
+            IO.println("There's not participations registered.");
             return;
         }
 
@@ -42,8 +42,6 @@ public class ParticipationRepository {
             .sorted(Map.Entry.<UUID, Long>comparingByValue().reversed())
             .collect(Collectors.toList());
 
-        IO.println("===== RANKING DE PARTICIPACIONES =====");
-
         int position = 1;
         for (Map.Entry<UUID, Long> entry : ranking) {
             UUID studentId = entry.getKey();
@@ -60,7 +58,7 @@ public class ParticipationRepository {
                         student.fullName +
                         " → " +
                         count +
-                        " participaciones"
+                        " participations"
                 );
                 position++;
             }

@@ -59,7 +59,7 @@ public class PartiManager {
 
     public void showStudents() {
         if (students.size() == 0) {
-            IO.println("No hay cursos registrados actualmente.");
+            IO.println("There's no students registered.");
             return;
         }
         for (Student item : students) {
@@ -82,6 +82,10 @@ public class PartiManager {
     }
 
     public void showParticipations() {
+        if (this.participations.isEmpty()) {
+            IO.println("There's not participations registered.");
+            return;
+        }
         for (Participation item : this.participations) {
             Student student = studentRepo.getStudentByUuid(
                 item.getStudentUuid(),
@@ -110,6 +114,10 @@ public class PartiManager {
     }
 
     public void showCourses() {
+        if (this.courses.isEmpty()) {
+            IO.println("there's no courses registered.");
+            return;
+        }
         for (Course item : this.courses) {
             IO.print("Course: " + item.name + " ");
             IO.println("Uuid: " + item.code);
@@ -132,6 +140,10 @@ public class PartiManager {
     }
 
     public void showSections() {
+        if (this.sections.isEmpty()) {
+            IO.println("There's not sections registered.");
+            return;
+        }
         for (Section item : this.sections) {
             IO.print("Section: " + item.getName() + " ");
             IO.println(
