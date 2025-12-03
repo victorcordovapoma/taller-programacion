@@ -68,20 +68,18 @@ public class ParticipationRepository {
     // Calcular participacion
     public String calculateParticipation(
         Student student,
-        int participations,
-        String registeredBy
+        int participations
     ) {
-        if (student == null || participations < 0 ||  
-            registeredBy == null || registeredBy.isEmpty()) {
+        if (student == null || participations < 0) {
             return "Verifique los datos ingresados.";
         }
 
-        double percentage = (participations * 100.0) / 
-        String level = percentage > 70 ? "Alta" :     percentage >= 40 ? "Media" : "Baja";
+        // double percentage = (participations * 100.0) / 
+        // String level = percentage > 70 ? "Alta" :     percentage >= 40 ? "Media" : "Baja";
 
-        return "Alumno: " + student.fullName +
-               "\nPorcentaje: " + String.format("%.2f", percentage) + "%" +
-               "\nClasificación: " + level;
+        return "Alumno: " + student.fullName;
+        //        "\nPorcentaje: " + String.format("%.2f", percentage) + "%" +
+        //        "\nClasificación: " + level;
     }
 
 }

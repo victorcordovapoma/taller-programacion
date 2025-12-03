@@ -2,6 +2,10 @@ package com.taller;
 
 import java.util.Scanner;
 
+import com.services.CourseService;
+import com.services.ParticipationService;
+import com.services.StudentService;
+
 public class Main {
 
     private static final int MAX_STUDENTS = 30;
@@ -9,6 +13,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         PartiManager manager = new PartiManager(MAX_STUDENTS);
+        ParticipationService participationService = new ParticipationService(manager);
+        CourseService courseService = new CourseService(manager, MAX_STUDENTS);
+        StudentService studentService = new StudentService(manager, MAX_STUDENTS);
         String option;
         String dni;
 
@@ -20,22 +27,22 @@ public class Main {
                 case "1" -> {
                     dni = Read.readDni(scanner);
                     String fullName = Read.readFullName(scanner);
-                    manager.registerStudent(dni, fullName);
+                    studentService.registerStudent(dni, fullName);
                 }
-                case "2" -> manager.showStudents();
+                case "2" -> studentService.showStudents();
                 case "3" -> {
                     dni = Read.readDni(scanner);
-                    manager.registerParticipation(dni);
+                    participationService.registerParticipation(dni);
                 }
-                case "4" -> manager.showParticipations();
+                case "4" -> participationService.showParticipations();
                 case "5" -> {
                     System.out.print("Enter Course: ");
                     String course = Read.readInputString(scanner);
                     System.out.print("Enter Code: ");
                     String code = Read.readInputString(scanner);
-                    manager.registerCourse(course, code);
+                    courseService.registerCourse(course, code);
                 }
-                case "6" -> manager.showCourses();
+                case "6" -> courseService.showCourses();
                 case "7" -> {
                     System.out.print("Enter Section: ");
                     String section = Read.readInputString(scanner);
@@ -44,8 +51,13 @@ public class Main {
                     manager.registerSection(section, code);
                 }
                 case "8" -> manager.showSections();
-                case "9" -> manager.showRanking();
-                case "10" -> manager.calculateParticipation();
+                case "9" -> participationService.showRanking();
+                // case "9" -> manager.showRanking();
+                case "10" -> {
+                    dni = Read.readDni(scanner);
+                    participationService.calculateParticipation(dni,
+                        manager.participations.size());
+                }
                 case "0" -> System.out.println("Bye!");
                 default -> System.out.println("Invalid option.");
             }
