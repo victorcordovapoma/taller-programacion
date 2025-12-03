@@ -63,4 +63,27 @@ public class ParticipationRepository {
             }
         }
     }
+
+    // Calcular participacion
+    public String calculateParticipation(
+        Student student,
+        int participations,
+        int totalSessions,
+        String registeredBy
+    ) {
+        if (student == null || participations < 0 || totalSessions <= 0 ||
+            registeredBy == null || registeredBy.isEmpty()) {
+            return "Verifique los datos ingresados.";
+        }
+
+        double percentage = (participations * 100.0) / totalSessions;
+        String level =
+            percentage > 70 ? "Alta" :
+            percentage >= 40 ? "Media" : "Baja";
+
+        return "Alumno: " + student.fullName +
+               "\nPorcentaje: " + String.format("%.2f", percentage) + "%" +
+               "\nClasificación: " + level;
+    }
+
 }
