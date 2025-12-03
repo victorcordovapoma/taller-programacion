@@ -45,6 +45,7 @@ public class Main {
                 }
                 case "8" -> manager.showSections();
                 case "9" -> manager.showRanking();
+                case "10" -> manager.calculateParticipation();
                 case "0" -> System.out.println("Bye!");
                 default -> System.out.println("Invalid option.");
             }

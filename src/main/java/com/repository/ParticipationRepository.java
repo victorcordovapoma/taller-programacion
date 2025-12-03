@@ -1,12 +1,13 @@
 package com.repository;
 
-import com.models.Participation;
-import com.models.Student;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.models.Participation;
+import com.models.Student;
 
 public class ParticipationRepository {
 
@@ -20,7 +21,7 @@ public class ParticipationRepository {
         StudentRepository studentRepository
     ) {
         if (participations.isEmpty()) {
-            IO.println("There's not participations registered.");
+            System.out.println("There's not participations registered.");
             return;
         }
 
@@ -51,7 +52,7 @@ public class ParticipationRepository {
                 students
             );
             if (student != null) {
-                IO.println(
+                System.out.println(
                     position +
                         ". " +
                         student.fullName +
@@ -68,18 +69,15 @@ public class ParticipationRepository {
     public String calculateParticipation(
         Student student,
         int participations,
-        int totalSessions,
         String registeredBy
     ) {
-        if (student == null || participations < 0 || totalSessions <= 0 ||
+        if (student == null || participations < 0 ||  
             registeredBy == null || registeredBy.isEmpty()) {
             return "Verifique los datos ingresados.";
         }
 
-        double percentage = (participations * 100.0) / totalSessions;
-        String level =
-            percentage > 70 ? "Alta" :
-            percentage >= 40 ? "Media" : "Baja";
+        double percentage = (participations * 100.0) / 
+        String level = percentage > 70 ? "Alta" :     percentage >= 40 ? "Media" : "Baja";
 
         return "Alumno: " + student.fullName +
                "\nPorcentaje: " + String.format("%.2f", percentage) + "%" +

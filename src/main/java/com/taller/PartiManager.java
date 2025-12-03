@@ -1,5 +1,8 @@
 package com.taller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.models.Course;
 import com.models.Participation;
 import com.models.Section;
@@ -8,8 +11,6 @@ import com.repository.CourseRepository;
 import com.repository.ParticipationRepository;
 import com.repository.SectionRepository;
 import com.repository.StudentRepository;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PartiManager {
 
@@ -43,12 +44,12 @@ public class PartiManager {
 
     public boolean registerStudent(String dni, String fullName) {
         if (isFull(students)) {
-            IO.println("Student list is full.");
+            System.out.println("Student list is full.");
             return false;
         }
 
         if (studentRepo.getStudentByDni(dni, this.students) != null) {
-            IO.println("Invalid DNI.");
+            System.out.println("Invalid DNI.");
             return false;
         }
 
@@ -59,11 +60,11 @@ public class PartiManager {
 
     public void showStudents() {
         if (students.size() == 0) {
-            IO.println("There's no students registered.");
+            System.out.println("There's no students registered.");
             return;
         }
         for (Student item : students) {
-            IO.println("DNI: " + item.dni + " fullName: " + item.fullName);
+            System.out.println("DNI: " + item.dni + " fullName: " + item.fullName);
         }
     }
 
@@ -83,7 +84,7 @@ public class PartiManager {
 
     public void showParticipations() {
         if (this.participations.isEmpty()) {
-            IO.println("There's not participations registered.");
+            System.out.println("There's not participations registered.");
             return;
         }
         for (Participation item : this.participations) {
@@ -91,7 +92,7 @@ public class PartiManager {
                 item.getStudentUuid(),
                 this.students
             );
-            IO.println(
+            System.out.println(
                 "The student: " + student.fullName + " has participated."
             );
         }
@@ -99,11 +100,11 @@ public class PartiManager {
 
     public boolean registerCourse(String name, String code) {
         if (courseRepo.getByCode(code, this.courses) != null) {
-            IO.println("Course code already exists.");
+            System.out.println("Course code already exists.");
             return false;
         }
         if (courseRepo.getByName(name, this.courses) != null) {
-            IO.println("Invalid name.");
+            System.out.println("Invalid name.");
             return false;
         }
 
@@ -115,23 +116,23 @@ public class PartiManager {
 
     public void showCourses() {
         if (this.courses.isEmpty()) {
-            IO.println("there's no courses registered.");
+            System.out.println("there's no courses registered.");
             return;
         }
         for (Course item : this.courses) {
-            IO.print("Course: " + item.name + " ");
-            IO.println("Uuid: " + item.code);
+            System.out.print("Course: " + item.name + " ");
+            System.out.println("Uuid: " + item.code);
         }
     }
 
     public boolean registerSection(String name, String courseCode) {
         if (sectionRepo.getByName(name, this.sections) != null) {
-            IO.println("Section already exists.");
+            System.out.println("Section already exists.");
             return false;
         }
         Course course = this.courseRepo.getByCode(courseCode, this.courses);
         if (course == null) {
-            IO.println("Invalid code.");
+            System.out.println("Invalid code.");
             return false;
         }
         Section section = new Section(name, course.getUuid());
@@ -141,12 +142,12 @@ public class PartiManager {
 
     public void showSections() {
         if (this.sections.isEmpty()) {
-            IO.println("There's not sections registered.");
+            System.out.println("There's not sections registered.");
             return;
         }
         for (Section item : this.sections) {
-            IO.print("Section: " + item.getName() + " ");
-            IO.println(
+            System.out.print("Section: " + item.getName() + " ");
+            System.out.println(
                 "Course: " +
                     this.courseRepo.getByUuid(
                         item.getCourse(),
@@ -161,6 +162,19 @@ public class PartiManager {
             this.participations,
             this.students,
             this.studentRepo
+        );
+    }
+    public String calculateParticipation(String dni, int participationsCount, int totalSessions, String registeredBy) {
+
+        Student student = studentRepo.getStudentByDni(dni, students);
+        if (student == null) {
+            return "Estudiante no encontrado.";
+        }
+
+        return participationRepo.calculateParticipation(
+            student,
+            participationsCount,
+            registeredBy
         );
     }
 }

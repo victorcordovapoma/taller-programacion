@@ -66,7 +66,7 @@ All data is persisted as JSON files in the `data/` directory:
 ### Important Notes
 - Java 25 preview features are enabled via `--enable-preview` flag
 - Maximum 30 students can be registered (hardcoded in Main.java)
-- The application uses `IO.println()` and `IO.print()` for output (these classes need to be located/verified)
+- The application uses `System.out.println()` and `System.out.print()` for output (these classes need to be located/verified)
 - No validation framework is used - validation is handled manually
 - Student DNI must be unique
 - Student full names are compared case-insensitively and trimmed

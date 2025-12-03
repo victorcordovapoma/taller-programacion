@@ -13,6 +13,7 @@ public class Ui {
         System.out.println("7) Register section");
         System.out.println("8) Show sections");
         System.out.println("9) Show ranking");
+        System.err.println("10) Calculate participation");
         System.out.println("0) Exit");
 
         System.out.print("Choose: ");
