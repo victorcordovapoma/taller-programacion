@@ -10,10 +10,12 @@ public class Ui {
         System.out.println("4) Show participations");
         System.out.println("5) Register course");
         System.out.println("6) Show courses");
-        System.out.println("7) Register section");
-        System.out.println("8) Show sections");
+        System.out.println("7) Delete course");
+        System.out.println("8) Delete student");
         System.out.println("9) Show ranking");
         System.err.println("10) Calculate participation");
+        System.err.println("11) Register teacher");
+        System.err.println("12) show teacher");
         System.out.println("0) Exit");
 
         System.out.print("Choose: ");

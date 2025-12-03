@@ -1,10 +1,10 @@
 package com.taller;
 
-import java.util.Scanner;
-
 import com.services.CourseService;
 import com.services.ParticipationService;
 import com.services.StudentService;
+import com.services.TeacherService;
+import java.util.Scanner;
 
 public class Main {
 
@@ -13,11 +13,18 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         PartiManager manager = new PartiManager(MAX_STUDENTS);
-        ParticipationService participationService = new ParticipationService(manager);
+        ParticipationService participationService = new ParticipationService(
+            manager
+        );
         CourseService courseService = new CourseService(manager, MAX_STUDENTS);
-        StudentService studentService = new StudentService(manager, MAX_STUDENTS);
+        StudentService studentService = new StudentService(
+            manager,
+            MAX_STUDENTS
+        );
+        TeacherService teacherService = new TeacherService(manager);
         String option;
         String dni;
+        String fullName;
 
         do {
             Ui.showMenu();
@@ -26,7 +33,7 @@ public class Main {
             switch (option) {
                 case "1" -> {
                     dni = Read.readDni(scanner);
-                    String fullName = Read.readFullName(scanner);
+                    fullName = Read.readFullName(scanner);
                     studentService.registerStudent(dni, fullName);
                 }
                 case "2" -> studentService.showStudents();
@@ -44,19 +51,30 @@ public class Main {
                 }
                 case "6" -> courseService.showCourses();
                 case "7" -> {
-                    System.out.print("Enter Section: ");
-                    String section = Read.readInputString(scanner);
                     System.out.print("Enter Course Code: ");
                     String code = Read.readInputString(scanner);
-                    manager.registerSection(section, code);
+                    courseService.deleteCourseByCode(code);
                 }
-                case "8" -> manager.showSections();
+                case "8" -> {
+                    dni = Read.readDni(scanner);
+                    studentService.deleteStudentByDni(dni);
+                }
                 case "9" -> participationService.showRanking();
-                // case "9" -> manager.showRanking();
                 case "10" -> {
                     dni = Read.readDni(scanner);
-                    participationService.calculateParticipation(dni,
-                        manager.participations.size());
+                    participationService.calculateParticipation(
+                        dni,
+                        manager.participations.size()
+                    );
+                }
+                case "11" -> {
+                    dni = Read.readDni(scanner);
+                    fullName = Read.readFullName(scanner);
+                    teacherService.register(dni, fullName);
+                }
+                case "12" -> {
+                    dni = Read.readDni(scanner);
+                    teacherService.show(dni);
                 }
                 case "0" -> System.out.println("Bye!");
                 default -> System.out.println("Invalid option.");

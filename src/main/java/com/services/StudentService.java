@@ -1,12 +1,12 @@
 package com.services;
 
-import java.util.List;
-
 import com.models.Student;
 import com.repository.StudentRepository;
 import com.taller.PartiManager;
+import java.util.List;
 
 public class StudentService {
+
     private final StudentRepository studentRepo;
     private final PartiManager manager;
     private final int MAX_STUDENTS;
@@ -21,7 +21,7 @@ public class StudentService {
         return students.size() >= MAX_STUDENTS;
     }
 
-        public boolean registerStudent(String dni, String fullName) {
+    public boolean registerStudent(String dni, String fullName) {
         if (isFull(this.manager.students)) {
             System.out.println("Student list is full.");
             return false;
@@ -43,7 +43,33 @@ public class StudentService {
             return;
         }
         for (Student item : this.manager.students) {
-            System.out.println("DNI: " + item.dni + " fullName: " + item.fullName);
+            System.out.println(
+                "DNI: " + item.dni + " fullName: " + item.fullName
+            );
         }
+    }
+
+    public boolean deleteStudentByDni(String dni) {
+        Student student = studentRepo.getStudentByDni(
+            dni,
+            this.manager.students
+        );
+
+        if (student == null) {
+            System.out.println("Student not found for DNI: " + dni);
+            return false;
+        }
+
+        boolean removed = this.manager.students.remove(student);
+
+        if (removed) {
+            System.out.println(
+                "Student '" + student.fullName + "' deleted successfully."
+            );
+        } else {
+            System.out.println("Error deleting the student.");
+        }
+
+        return removed;
     }
 }
