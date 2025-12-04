@@ -59,13 +59,17 @@ public class Main {
                     dni = Read.readDni(scanner);
                     studentService.deleteStudentByDni(dni);
                 }
-                case "9" -> participationService.showRanking();
+                case "9" -> {
+                    System.out.print("Enter Course Code: ");
+                    String code = Read.readInputString(scanner);
+
+                    participationService.showRanking(code);
+                }
                 case "10" -> {
                     dni = Read.readDni(scanner);
-                    participationService.calculateParticipation(
-                        dni,
-                        manager.participations.size()
-                    );
+                    System.out.print("Enter Course Code: ");
+                    String code = Read.readInputString(scanner);
+                    participationService.calculateParticipation(code, dni);
                 }
                 case "11" -> {
                     dni = Read.readDni(scanner);

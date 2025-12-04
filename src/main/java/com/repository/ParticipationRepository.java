@@ -1,13 +1,13 @@
 package com.repository;
 
+import com.models.Course;
+import com.models.Participation;
+import com.models.Student;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import com.models.Participation;
-import com.models.Student;
 
 public class ParticipationRepository {
 
@@ -16,16 +16,26 @@ public class ParticipationRepository {
     }
 
     public void showRanking(
+        String courseCode,
         List<Participation> participations,
         List<Student> students,
-        StudentRepository studentRepository
+        Course course,
+        StudentRepository studentRepo
     ) {
-        if (participations.isEmpty()) {
-            System.out.println("There's not participations registered.");
+        if (course == null) {
+            System.out.println(
+                "El curso con código '" + courseCode + "' no existe."
+            );
             return;
         }
 
-        // Contar participaciones por estudiante
+        if (participations.isEmpty()) {
+            System.out.println(
+                "No hay participaciones registradas actualmente."
+            );
+            return;
+        }
+
         Map<UUID, Long> participationCount = participations
             .stream()
             .collect(
@@ -35,51 +45,53 @@ public class ParticipationRepository {
                 )
             );
 
-        // Ordenar de mayor a menor
+        if (participationCount.isEmpty()) {
+            System.out.println(
+                "No hay participaciones registradas actualmente."
+            );
+            return;
+        }
+
         List<Map.Entry<UUID, Long>> ranking = participationCount
             .entrySet()
             .stream()
             .sorted(Map.Entry.<UUID, Long>comparingByValue().reversed())
             .collect(Collectors.toList());
 
+        System.out.println("Curso: " + course.name + " (" + course.code + ")");
+        System.out.println("--------------------------------------");
+        System.out.printf(
+            "%-4s %-25s %-10s %-10s%n",
+            "#",
+            "Alumno",
+            "Participaciones",
+            "Nivel"
+        );
+        System.out.println("--------------------------------------");
+
         int position = 1;
         for (Map.Entry<UUID, Long> entry : ranking) {
             UUID studentId = entry.getKey();
             long count = entry.getValue();
 
-            Student student = studentRepository.getStudentByUuid(
-                studentId,
-                students
-            );
+            Student student = studentRepo.getStudentByUuid(studentId, students);
             if (student != null) {
-                System.out.println(
-                    position +
-                        ". " +
-                        student.fullName +
-                        " → " +
-                        count +
-                        " participations"
+                String level;
+                if (count >= 10) level = "Alta";
+                else if (count >= 5) level = "Media";
+                else level = "Baja";
+
+                System.out.printf(
+                    "%-4d %-25s %-10d %-10s%n",
+                    position,
+                    student.fullName,
+                    count,
+                    level
                 );
                 position++;
             }
         }
+
+        System.out.println("--------------------------------------");
     }
-
-    // Calcular participacion
-    public String calculateParticipation(
-        Student student,
-        int participations
-    ) {
-        if (student == null || participations < 0) {
-            return "Verifique los datos ingresados.";
-        }
-
-        // double percentage = (participations * 100.0) / 
-        // String level = percentage > 70 ? "Alta" :     percentage >= 40 ? "Media" : "Baja";
-
-        return "Alumno: " + student.fullName;
-        //        "\nPorcentaje: " + String.format("%.2f", percentage) + "%" +
-        //        "\nClasificación: " + level;
-    }
-
 }
