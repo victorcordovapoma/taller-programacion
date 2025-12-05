@@ -7,7 +7,6 @@ import com.repository.CourseRepository;
 import com.repository.ParticipationRepository;
 import com.repository.StudentRepository;
 import com.taller.PartiManager;
-import java.util.List;
 
 public class ParticipationService {
 
@@ -29,11 +28,39 @@ public class ParticipationService {
             this.manager.students
         );
         if (student == null) {
+            System.out.println("El alumno no está registrado en el sistema.");
             return false;
         }
+
         Participation participation = new Participation(student.getUuid());
+
         this.manager.participations.add(participation);
+        student.addParticipation(participation);
+
+        System.out.println("Participación registrada para " + student.fullName);
         return true;
+    }
+
+    public void countStudentParticipations(String dni) {
+        Student student = studentRepo.getStudentByDni(
+            dni,
+            this.manager.students
+        );
+        if (student == null) {
+            System.out.println(
+                "El alumno con DNI " + dni + " no está registrado."
+            );
+            return;
+        }
+
+        int count = student.getParticipationCount();
+        System.out.println(
+            "El alumno " +
+                student.fullName +
+                " tiene " +
+                count +
+                " participaciones registradas."
+        );
     }
 
     public void showParticipations() {
@@ -91,11 +118,7 @@ public class ParticipationService {
             return;
         }
 
-        List<Participation> participations = this.manager.participations;
-        long studentParticipations = participations
-            .stream()
-            .filter(p -> p.getStudentUuid().equals(student.getUuid()))
-            .count();
+        long studentParticipations = student.getParticipationCount();
 
         String level;
         if (studentParticipations >= 10) {
@@ -108,7 +131,6 @@ public class ParticipationService {
             level = "Sin participación registrada";
         }
 
-        System.out.println("===== RESULTADO DE PARTICIPACIÓN =====");
         System.out.println("Curso: " + course.name + " (" + course.code + ")");
         System.out.println(
             "Alumno: " + student.fullName + " | DNI: " + student.dni

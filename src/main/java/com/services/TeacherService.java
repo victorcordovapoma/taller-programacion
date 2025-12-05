@@ -16,7 +16,7 @@ public class TeacherService {
 
     public boolean register(String dni, String fullName) {
         if (teacherRepo.getByDni(dni, this.manager.teachers) != null) {
-            System.out.println("Invalid DNI.");
+            System.out.println("El DNI ya existe.");
             return false;
         }
 
@@ -33,7 +33,10 @@ public class TeacherService {
         }
         for (Teacher item : this.manager.teachers) {
             System.out.println(
-                "DNI: " + item.dni + " fullName: " + item.fullName
+                "Se ha encontrado el profesor " +
+                    item.fullName +
+                    " cuyo dni es " +
+                    item.dni
             );
         }
     }

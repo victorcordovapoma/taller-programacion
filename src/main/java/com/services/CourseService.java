@@ -10,18 +10,18 @@ public class CourseService {
 
     private final PartiManager manager;
 
-    public CourseService(PartiManager manager, int maxStudents) {
+    public CourseService(PartiManager manager) {
         this.manager = manager;
         this.courseRepo = new CourseRepository();
     }
 
     public boolean registerCourse(String name, String code) {
         if (this.courseRepo.getByCode(code, this.manager.courses) != null) {
-            System.out.println("Course code already exists.");
+            System.out.println("Ya existe un curso con el código " + code);
             return false;
         }
         if (this.courseRepo.getByName(name, this.manager.courses) != null) {
-            System.out.println("Invalid name.");
+            System.out.println("El nombre del curso ya existe");
             return false;
         }
 
@@ -31,15 +31,19 @@ public class CourseService {
         return true;
     }
 
-    public void showCourses() {
+    public void showCourse(String code) {
         if (this.manager.courses.isEmpty()) {
-            System.out.println("there's no courses registered.");
+            System.out.println("No hay cursos registrados.");
             return;
         }
-        for (Course item : this.manager.courses) {
-            System.out.print("Course: " + item.name + " ");
-            System.out.println("Uuid: " + item.code);
+        Course course = courseRepo.getByCode(code, this.manager.courses);
+        if (course == null) {
+            System.out.println("El curso no existe - Código: " + code);
+            return;
         }
+        System.out.println(
+            "Curso " + course.name + " cuyo código es " + course.code
+        );
     }
 
     public boolean deleteCourseByCode(String code) {
@@ -54,7 +58,7 @@ public class CourseService {
 
         if (removed) {
             System.out.println(
-                "Course '" + course.name + "' deleted successfully."
+                "Curso '" + course.name + "' eliminado exitosamente."
             );
         } else {
             System.out.println("Error deleting the course.");

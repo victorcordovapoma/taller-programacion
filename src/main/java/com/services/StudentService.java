@@ -28,7 +28,7 @@ public class StudentService {
         }
 
         if (studentRepo.getStudentByDni(dni, this.manager.students) != null) {
-            System.out.println("Invalid DNI.");
+            System.out.println("El DNI ya existe.");
             return false;
         }
 
@@ -37,16 +37,23 @@ public class StudentService {
         return true;
     }
 
-    public void showStudents() {
-        if (this.manager.students.size() == 0) {
-            System.out.println("There's no students registered.");
+    public void showStudent(String dni) {
+        if (this.manager.students.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
             return;
         }
-        for (Student item : this.manager.students) {
-            System.out.println(
-                "DNI: " + item.dni + " fullName: " + item.fullName
-            );
+        Student student = studentRepo.getStudentByDni(
+            dni,
+            this.manager.students
+        );
+
+        if (student == null) {
+            System.out.println("El alumno no existe -DNI: " + dni);
+            return;
         }
+        System.out.println(
+            "Estudiante " + student.fullName + " cuyo dni es " + student.dni
+        );
     }
 
     public boolean deleteStudentByDni(String dni) {
@@ -64,7 +71,7 @@ public class StudentService {
 
         if (removed) {
             System.out.println(
-                "Student '" + student.fullName + "' deleted successfully."
+                "Estudiante '" + student.fullName + "' eliminado exitosamente."
             );
         } else {
             System.out.println("Error deleting the student.");

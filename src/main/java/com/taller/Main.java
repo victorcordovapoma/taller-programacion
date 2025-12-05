@@ -16,7 +16,7 @@ public class Main {
         ParticipationService participationService = new ParticipationService(
             manager
         );
-        CourseService courseService = new CourseService(manager, MAX_STUDENTS);
+        CourseService courseService = new CourseService(manager);
         StudentService studentService = new StudentService(
             manager,
             MAX_STUDENTS
@@ -36,12 +36,18 @@ public class Main {
                     fullName = Read.readFullName(scanner);
                     studentService.registerStudent(dni, fullName);
                 }
-                case "2" -> studentService.showStudents();
+                case "2" -> {
+                    dni = Read.readDni(scanner);
+                    studentService.showStudent(dni);
+                }
                 case "3" -> {
                     dni = Read.readDni(scanner);
                     participationService.registerParticipation(dni);
                 }
-                case "4" -> participationService.showParticipations();
+                case "4" -> {
+                    dni = Read.readDni(scanner);
+                    participationService.countStudentParticipations(dni);
+                }
                 case "5" -> {
                     System.out.print("Enter Course: ");
                     String course = Read.readInputString(scanner);
@@ -49,7 +55,11 @@ public class Main {
                     String code = Read.readInputString(scanner);
                     courseService.registerCourse(course, code);
                 }
-                case "6" -> courseService.showCourses();
+                case "6" -> {
+                    System.out.print("Enter Code: ");
+                    String code = Read.readInputString(scanner);
+                    courseService.showCourse(code);
+                }
                 case "7" -> {
                     System.out.print("Enter Course Code: ");
                     String code = Read.readInputString(scanner);
