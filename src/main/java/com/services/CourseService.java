@@ -1,18 +1,22 @@
 package com.services;
 
 import com.models.Course;
+import com.models.Student;
 import com.repository.CourseRepository;
+import com.repository.StudentRepository;
 import com.taller.PartiManager;
 
 public class CourseService {
 
     private final CourseRepository courseRepo;
+    private final StudentRepository studentRepo;
 
     private final PartiManager manager;
 
     public CourseService(PartiManager manager) {
         this.manager = manager;
         this.courseRepo = new CourseRepository();
+        this.studentRepo = new StudentRepository();
     }
 
     public boolean registerCourse(String name, String code) {
@@ -65,5 +69,22 @@ public class CourseService {
         }
 
         return removed;
+    }
+
+    public void registerStudentToCourse(String courseCode, String studentDni) {
+        Student student = studentRepo.getStudentByDni(
+            studentDni,
+            this.manager.students
+        );
+        if (student == null) {
+            IO.println("El alumno no está registrado en el sistema.");
+            return;
+        }
+
+        courseRepo.addStudentToCourse(
+            courseCode,
+            student,
+            this.manager.courses
+        );
     }
 }

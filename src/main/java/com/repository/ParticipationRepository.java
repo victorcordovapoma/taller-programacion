@@ -3,11 +3,9 @@ package com.repository;
 import com.models.Course;
 import com.models.Participation;
 import com.models.Student;
+import com.taller.PartiManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class ParticipationRepository {
 
@@ -17,11 +15,17 @@ public class ParticipationRepository {
 
     public void showRanking(
         String courseCode,
-        List<Participation> participations,
-        List<Student> students,
-        Course course,
-        StudentRepository studentRepo
+        CourseRepository courseRepo,
+        PartiManager manager
     ) {
+        // 1️⃣ Validar código de curso
+        if (courseCode == null || courseCode.isEmpty()) {
+            System.out.println("El código del curso no puede estar vacío.");
+            return;
+        }
+
+        // 2️⃣ Buscar curso
+        Course course = courseRepo.getByCode(courseCode, manager.courses);
         if (course == null) {
             System.out.println(
                 "El curso con código '" + courseCode + "' no existe."
@@ -29,69 +33,63 @@ public class ParticipationRepository {
             return;
         }
 
-        if (participations.isEmpty()) {
+        // 3️⃣ Obtener los estudiantes del curso
+        List<Student> students = course.getStudents();
+        if (students.isEmpty()) {
             System.out.println(
-                "No hay participaciones registradas actualmente."
+                "No hay estudiantes registrados en el curso " +
+                    course.name +
+                    "."
             );
             return;
         }
 
-        Map<UUID, Long> participationCount = participations
+        // 4️⃣ Calcular participaciones por alumno (ya están en Student)
+        List<Student> rankedStudents = students
             .stream()
-            .collect(
-                Collectors.groupingBy(
-                    Participation::getStudentUuid,
-                    Collectors.counting()
+            .filter(s -> s.getParticipationCount() > 0) // solo con participaciones
+            .sorted((a, b) ->
+                Integer.compare(
+                    b.getParticipationCount(),
+                    a.getParticipationCount()
                 )
-            );
+            )
+            .toList();
 
-        if (participationCount.isEmpty()) {
+        if (rankedStudents.isEmpty()) {
             System.out.println(
-                "No hay participaciones registradas actualmente."
+                "No hay participaciones registradas actualmente en este curso."
             );
             return;
         }
-
-        List<Map.Entry<UUID, Long>> ranking = participationCount
-            .entrySet()
-            .stream()
-            .sorted(Map.Entry.<UUID, Long>comparingByValue().reversed())
-            .collect(Collectors.toList());
 
         System.out.println("Curso: " + course.name + " (" + course.code + ")");
-        System.out.println("--------------------------------------");
         System.out.printf(
-            "%-4s %-25s %-10s %-10s%n",
-            "#",
+            "%-4s %-25s %-15s %-10s%n",
+            "Pos",
             "Alumno",
             "Participaciones",
             "Nivel"
         );
-        System.out.println("--------------------------------------");
+        System.out.println(
+            "------------------------------------------------------------"
+        );
 
-        int position = 1;
-        for (Map.Entry<UUID, Long> entry : ranking) {
-            UUID studentId = entry.getKey();
-            long count = entry.getValue();
+        int pos = 1;
+        for (Student s : rankedStudents) {
+            int count = s.getParticipationCount();
+            String level;
+            if (count >= 10) level = "Alta";
+            else if (count >= 5) level = "Media";
+            else level = "Baja";
 
-            Student student = studentRepo.getStudentByUuid(studentId, students);
-            if (student != null) {
-                String level;
-                if (count >= 10) level = "Alta";
-                else if (count >= 5) level = "Media";
-                else level = "Baja";
-
-                System.out.printf(
-                    "%-4d %-25s %-10d %-10s%n",
-                    position,
-                    student.fullName,
-                    count,
-                    level
-                );
-                position++;
-            }
+            System.out.printf(
+                "%-4d %-25s %-15d %-10s%n",
+                pos++,
+                s.fullName,
+                count,
+                level
+            );
         }
-
-        System.out.println("--------------------------------------");
     }
 }

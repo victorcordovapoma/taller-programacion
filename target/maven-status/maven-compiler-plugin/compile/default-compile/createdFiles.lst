@@ -1,16 +1,13 @@
 com/repository/TeacherRepository.class
 com/taller/Ui.class
-com/models/StudentSection.class
 com/models/Participation.class
 com/repository/ParticipationRepository.class
 com/taller/Main.class
 com/models/Student.class
-com/repository/SectionRepository.class
 com/services/TeacherService.class
 com/repository/StudentRepository.class
 com/repository/CourseRepository.class
 com/models/Course.class
-com/models/Section.class
 utils/Validation.class
 com/taller/PartiManager.class
 com/services/CourseService.class

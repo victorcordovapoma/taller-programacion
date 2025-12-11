@@ -22,7 +22,13 @@ public class ParticipationService {
         this.courseRepo = new CourseRepository();
     }
 
-    public boolean registerParticipation(String studentDni) {
+    public boolean registerParticipation(String code, String studentDni) {
+        Course course = courseRepo.getByCode(code, this.manager.courses);
+        if (course == null) {
+            System.out.println("El curso con código '" + code + "' no existe.");
+            return false;
+        }
+
         Student student = studentRepo.getStudentByDni(
             studentDni,
             this.manager.students
@@ -32,12 +38,33 @@ public class ParticipationService {
             return false;
         }
 
+        boolean isEnrolled = course
+            .getStudents()
+            .stream()
+            .anyMatch(s -> s.dni.equals(student.dni));
+
+        if (!isEnrolled) {
+            System.out.println(
+                "El alumno no está inscrito en el curso " + course.name + "."
+            );
+            return false;
+        }
+
         Participation participation = new Participation(student.getUuid());
 
-        this.manager.participations.add(participation);
         student.addParticipation(participation);
+        this.manager.participations.add(participation);
 
-        System.out.println("Participación registrada para " + student.fullName);
+        System.out.println("Participación registrada correctamente:");
+        System.out.println("   Alumno: " + student.fullName);
+        System.out.println(
+            "   Curso: " + course.name + " (" + course.code + ")"
+        );
+        System.out.println(
+            "   Total participaciones del alumno: " +
+                student.getParticipationCount()
+        );
+
         return true;
     }
 
@@ -80,14 +107,7 @@ public class ParticipationService {
     }
 
     public void showRanking(String code) {
-        Course course = courseRepo.getByCode(code, manager.courses);
-        participationRepo.showRanking(
-            code,
-            this.manager.participations,
-            this.manager.students,
-            course,
-            this.studentRepo
-        );
+        participationRepo.showRanking(code, this.courseRepo, this.manager);
     }
 
     public void calculateParticipation(String courseCode, String dniStudent) {

@@ -8,7 +8,7 @@ public class Read {
 
     static String readDni(Scanner sc) {
         while (true) {
-            System.out.print("Enter DNI (8 digits) or ‘q’ to cancel: ");
+            System.out.print("Ingresar DNI (8 digitos) o ‘q’ para cancelar: ");
             String dni = sc.nextLine().trim();
             if (dni.equalsIgnoreCase("q")) {
                 return null;
@@ -16,13 +16,13 @@ public class Read {
             if (Validation.isValidDni(dni)) {
                 return dni;
             }
-            System.out.println("Invalid DNI. It must be exactly 8 digits.");
+            System.out.println("Invalid DNI. It must be exactly 8 digitos.");
         }
     }
 
     static String readFullName(Scanner sc) {
         while (true) {
-            System.out.print("Enter full name (or ‘q’ to cancel): ");
+            System.out.print("Enter full name (o ‘q’ para cancelar): ");
             String name = sc.nextLine().trim();
             if (name.equalsIgnoreCase("q")) {
                 return null;

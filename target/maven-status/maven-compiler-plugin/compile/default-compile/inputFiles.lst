@@ -1,12 +1,9 @@
 /Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/models/Course.java
 /Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/models/Participation.java
-/Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/models/Section.java
 /Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/models/Student.java
-/Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/models/StudentSection.java
 /Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/models/Teacher.java
 /Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/repository/CourseRepository.java
 /Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/repository/ParticipationRepository.java
-/Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/repository/SectionRepository.java
 /Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/repository/StudentRepository.java
 /Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/repository/TeacherRepository.java
 /Users/victorcordova/Documents/universidad/taller_programacion/src/main/java/com/services/CourseService.java
